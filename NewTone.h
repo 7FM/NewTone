@@ -33,18 +33,25 @@
 // ---------------------------------------------------------------------------
 
 #ifndef NewTone_h
-  #define NewTone_h
+#define NewTone_h
 
-  #if defined(ARDUINO) && ARDUINO >= 100
-    #include <Arduino.h>
-  #else
-    #include <WProgram.h>
-  #endif
+#if defined(ARDUINO) && ARDUINO >= 100
+#include <Arduino.h>
+#else
+#include <WProgram.h>
+#endif
 
-  #if defined(__AVR_ATmega8__) || defined(__AVR_ATmega128__)
-    #define TIMSK1 TIMSK
-  #endif
+#if defined(__AVR_ATmega8__) || defined(__AVR_ATmega128__)
+#define TIMSK1 TIMSK
+#endif
 
-  void NewTone(uint8_t pin, unsigned long frequency, unsigned long length = 0);
-  void noNewTone(uint8_t pin = 0);
+#ifndef NEWTONE_STATIC_PIN
+template <uint8_t NEWTONE_PIN>
+#else
+#define NEWTONE_PIN NEWTONE_STATIC_PIN
+#endif
+void NewTone(unsigned long frequency, unsigned long length = 0);
+void noNewTone();
+
+#include "NewTone.tpp"
 #endif
